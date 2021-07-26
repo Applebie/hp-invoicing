@@ -10,7 +10,7 @@
     <div>
       <AddProfile v-show="showAddProfile" @add-profile="addProfile" />
     </div>
-    <Tasks :tasks="tasks" />
+    <Tasks @delete-task="deleteTask" :tasks="tasks" />
 
     <!-- <HelloWorld msg="changing the text to test"/> -->
     <!-- </div> -->
@@ -19,54 +19,73 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import Header from './components/Header'
-import Tasks from './components/Tasks'
-import AddProfile from './components/AddProfile'
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
+import AddProfile from "./components/AddProfile";
 export default {
-  name: 'App',
+  name: "App",
   // components: { HelloWorld  }
-  components:{Header,Tasks, AddProfile},
-data(){return {tasks:[],showAddProfile: false,}
-},
-methods: {
-  addProfile(task){
-    // if (confirm('Are you sure?'))
-    //this.tasks=[...this.tasks, task]
-    fetch("http://127.0.0.1:8000/task/create_task", {
-    method: 'POST',
-    headers: {
-      //'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(task)
-  }
-  
-  );
-
+  components: { Header, Tasks, AddProfile },
+  data() {
+    return { tasks: [], showAddProfile: false };
   },
-   toggleAddProfile() {
-      this.showAddProfile = !this.showAddProfile
+  methods: {
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+
+      fetch("/task/delete_task/" + id, {
+        method: "DELETE",
+        headers: {
+          //'Accept': 'application/json',
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(id),
+      });
     },
+    updateTask(task) {
+      //this.tasks = this.tasks.filter((task) => task.id !== id);
+      fetch("127.0.0.1:8000/task/update_task/" + task.id, {
+        method: "PUT",
+        headers: {
+          //'Accept': 'application/json',
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+    },
+    addProfile(task) {
+      // if (confirm('Are you sure?'))
+      //this.tasks=[...this.tasks, task]
+      fetch("http://127.0.0.1:8000/task/create_task", {
+        method: "POST",
+        headers: {
+          //'Accept': 'application/json',
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+    },
+    toggleAddProfile() {
+      this.showAddProfile = !this.showAddProfile;
+    },
+  },
+  //   created(){
 
-},
-mounted(){
-  
- let fetchRes = fetch("http://127.0.0.1:8000/task");
-        fetchRes.then((res) => res.json()).then((data) => {this.tasks = this.tasks.concat(data.tasks)}
-        ) 
-       
+  //   this.tasks = [
+  //       ]
+  // },
+  // {id:1,text:'Jon', business:'ABC Ltd',address:'Main st', taxid:1},
+  // {id:2,text:'Tom', business:'XYZ Ltd',address:'Sim st',taxid:2},
 
-}
-// ,
-// created(){
-      
-//   this.tasks = [
-// {id:1,text:'Jon', business:'ABC Ltd',address:'Main st', taxid:1},
-// {id:2,text:'Tom', business:'XYZ Ltd',address:'Sim st',taxid:2},
-//   ]
-// },
-}
-
+  mounted() {
+    let fetchRes = fetch("http://127.0.0.1:8000/task");
+    fetchRes
+      .then((res) => res.json())
+      .then((data) => {
+        this.tasks = this.tasks.concat(data.tasks);
+      });
+  },
+};
 </script>
 
 

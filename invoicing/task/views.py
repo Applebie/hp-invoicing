@@ -19,6 +19,29 @@ def create_task(request):
     newtask.address = json_data['address']
     newtask.taxid = json_data['taxid']
     newtask.save()
-    newtask.refresh_from_db()
+    # newtask.refresh_from_db()
     #return JsonResponse({'foo':all_task})
     return JsonResponse({'tasks':json_data}) # use the key tasks in vue function to display
+
+@csrf_exempt
+def update_task(request, id):
+   #t = Task.objects.get(pk = id)
+   json_data = json.loads(request.body)
+   t = Task()
+   t.text = request.POST.get('text')
+   t.business = request.POST.get('business')
+   t.address = request.POST.get('address')
+   t.taxid = request.POST.get('taxid')
+   t.save()
+   #t.refresh_from_db()
+   return JsonResponse({'status':'updated'})
+@csrf_exempt
+def delete_task(request,id):
+   # t = Task.objects.get(pk = id)
+   #json_data = json.loads(request.body)
+   # id = request.POST.get('id')
+   print(id)
+   t = Task.objects.get(pk = id)
+   t.delete()
+   #t.refresh_from_db()
+   return JsonResponse({'status':'deleted'})

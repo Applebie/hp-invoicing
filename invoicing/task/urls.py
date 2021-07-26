@@ -1,15 +1,9 @@
 from django.urls import path
 
 from . import views
-
-urlpatterns = [
-    # ex: /polls/
+urlpatterns= [
     path('', views.index, name='index'),
     path('create_task', views.create_task, name='create_task'),
-    # ex: /polls/5/
-    # path('<int:question_id>/', views.detail, name='detail'),
-    # # ex: /polls/5/results/
-    # path('<int:question_id>/results/', views.results, name='results'),
-    # # ex: /polls/5/vote/
-    # path('<int:question_id>/vote/', views.vote, name='vote'),
+    path('update_task/<int:id>', views.update_task, name='update_task'),
+    path('delete_task/<int:id>', views.delete_task, name='delete_task'),
 ]

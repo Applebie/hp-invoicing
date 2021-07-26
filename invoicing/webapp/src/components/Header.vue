@@ -12,6 +12,15 @@ import Button from './Button.vue'
 export default {
     name: 'Header', props:{ title:String,showAddProfile:Boolean},
     components:{Button,},
+    computed: {
+    homePage() {
+      if (this.$route.path === '/') {
+        return true
+      } else {
+        return false
+      }
+    },
+  },
 }
 </script>
 <style scoped>

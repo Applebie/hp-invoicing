@@ -1,7 +1,7 @@
 <template>
 <div class="task">
     <h3 >{{task.id}} {{task.text}} {{task.business}} {{task.address}} {{task.taxid}} 
-       <!-- <i  class= "fas fa-times"></i> -->
+             <i @click="$emit('delete-task', task.id)" class="fas fa-times"></i>
     </h3>
     
 </div>  
