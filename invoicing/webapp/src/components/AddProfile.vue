@@ -39,7 +39,7 @@ export default {
   methods: {
          
     onSubmit() {
-      // e.preventDefault()
+      // e.preventDefault() // if we disable this then DOM wont be refreshed so use getAPI after adding tasks (which has same logic in mount to refresh tasks)
 
       if (!this.text) {
         alert('Please add a Profile')

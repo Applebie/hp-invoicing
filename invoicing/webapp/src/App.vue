@@ -32,12 +32,11 @@ export default {
   methods: {
     deleteTask(id) {
       this.tasks = this.tasks.filter((task) => task.id !== id);
-
       fetch("/task/delete_task/" + id, {
         method: "DELETE",
         headers: {
-          //'Accept': 'application/json',
-          "Content-Type": "application/json",
+          'Accept': 'application/json', // client can only accept this type from the server
+          "Content-Type": "application/json", //xml, image, vieod or text sending to the server
         },
         body: JSON.stringify(id),
       });
@@ -64,6 +63,7 @@ export default {
         },
         body: JSON.stringify(task),
       });
+
     },
     toggleAddProfile() {
       this.showAddProfile = !this.showAddProfile;
@@ -77,6 +77,7 @@ export default {
   // {id:1,text:'Jon', business:'ABC Ltd',address:'Main st', taxid:1},
   // {id:2,text:'Tom', business:'XYZ Ltd',address:'Sim st',taxid:2},
 
+// page showing the list of tasks
   mounted() {
     let fetchRes = fetch("http://127.0.0.1:8000/task");
     fetchRes
